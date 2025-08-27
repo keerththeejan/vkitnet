@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Company Profile Website (Flask + MySQL)
 
 A minimal company profile site using Flask, Bootstrap 5, and MySQL with a working contact form.
@@ -62,3 +63,6 @@ SOURCE c:/wamp64/www/vk/schema.sql;
 
 ### Manage Services
 After logging in, go to Admin -> Services to create, edit, or delete services. Public page `/services` shows only active services.
+=======
+# vkitnet
+>>>>>>> 8c24877d4f2fba6c275ed50d775c2c478f92b598
