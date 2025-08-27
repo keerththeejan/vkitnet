@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img">
+  <rect width="1200" height="630" fill="#0b132b"/>
+  <g transform="translate(200,120)">
+    <rect x="0" y="0" width="800" height="400" rx="20" fill="#1d2d50" stroke="#ffc107" stroke-width="6"/>
+    <polygon points="360,160 520,240 360,320" fill="#ffc107"/>
+    <rect x="40" y="340" width="720" height="20" fill="#133b5c"/>
+    <rect x="80" y="340" width="80" height="20" fill="#20c997"/>
+    <rect x="200" y="340" width="120" height="20" fill="#0d6efd"/>
+  </g>
+  <text x="50%" y="78%" fill="#e8eefb" opacity="0.85" text-anchor="middle" font-family="Segoe UI, Roboto, Arial" font-size="24">Promos • Reels • Demos</text>
+</svg>

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1 class="mb-4">Our Services</h1>
+  <div class="row g-4">
+    {% for s in services %}
+    <div class="col-md-4">
+      <div class="card h-100">
+        {% set img = s.image_filename if s.image_filename else 'service-placeholder.svg' %}
+        <div class="ratio ratio-16x9">
+          <img src="{{ url_for('static', filename='uploads/' ~ img) }}" class="img-cover" alt="{{ s.title }}">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title d-flex align-items-center justify-content-between">
+            <span>{{ s.title }}</span>
+            {% if s.featured %}<span class="badge bg-warning text-dark">Featured</span>{% endif %}
+          </h5>
+          <p class="card-text">{{ s.description }}</p>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+      <div class="alert alert-info">No services published yet.</div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

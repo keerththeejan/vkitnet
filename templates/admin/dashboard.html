@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">Admin Dashboard</h1>
+    <div>
+      <a class="btn btn-outline-secondary me-2" href="{{ url_for('admin_services_list') }}"><i class="bi bi-grid"></i> Manage Services</a>
+      <a class="btn btn-outline-secondary me-2" href="{{ url_for('admin_employees_list') }}"><i class="bi bi-people"></i> Manage Employees</a>
+      <a class="btn btn-outline-danger" href="{{ url_for('admin_logout') }}">Logout</a>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card text-bg-light h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <div class="fw-semibold">Contacts</div>
+              <div class="display-6">{{ stats.contacts }}</div>
+            </div>
+            <i class="bi bi-envelope fs-1 text-muted"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-bg-light h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <div class="fw-semibold">Services</div>
+              <div class="display-6">{{ stats.services }}</div>
+            </div>
+            <i class="bi bi-grid fs-1 text-muted"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-bg-light h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <div class="fw-semibold">Employees</div>
+              <div class="display-6">{{ stats.employees }}</div>
+            </div>
+            <i class="bi bi-people fs-1 text-muted"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="h5 mt-4 mb-3">Latest Contacts</h2>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Message</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in latest_contacts %}
+        <tr>
+          <td>{{ c.id }}</td>
+          <td>{{ c.name }}</td>
+          <td>{{ c.email }}</td>
+          <td class="text-truncate" style="max-width: 360px;">{{ c.message }}</td>
+          <td>{{ c.created_at }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">No messages yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

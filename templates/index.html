@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% block content %}
+  <!-- Hero -->
+  <section class="hero p-5 mb-5 reveal in">
+    <div class="container py-4">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <h1 class="display-5 mb-3">Trusted partner for Software, Networking, and Computer Hardware</h1>
+          <p class="lead mb-4">We architect modern software, build resilient networks, and supply reliable hardware to accelerate your business.</p>
+          <div class="d-flex gap-2">
+            <a class="btn btn-gradient btn-lg text-white" href="{{ url_for('services') }}"><i class="bi bi-grid me-1"></i> Explore Services</a>
+            <a class="btn btn-outline-light btn-lg" href="{{ url_for('contact') }}"><i class="bi bi-telephone me-1"></i> Talk to us</a>
+          </div>
+        </div>
+        <div class="col-lg-5 text-lg-end">
+          <div class="p-2 rounded-4 shadow-sm glass">
+            {% if featured_services and featured_services|length > 0 %}
+            <div id="heroServicesCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500" data-bs-pause="false" data-bs-wrap="true" data-bs-touch="true" aria-label="Featured services images">
+              <div class="carousel-inner rounded-4 overflow-hidden">
+                {% for s in featured_services %}
+                  {% set img = s.image_filename if s.image_filename else 'service-placeholder.svg' %}
+                  <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+                    <div class="ratio ratio-16x9">
+                      <img src="{{ url_for('static', filename='uploads/' ~ img) }}" class="img-cover" alt="{{ s.title }}">
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+            <script>
+              document.addEventListener('DOMContentLoaded', function(){
+                var el = document.getElementById('heroServicesCarousel');
+                if(el && window.bootstrap && window.bootstrap.Carousel){
+                  try{ new bootstrap.Carousel(el, {interval: 3000, ride: 'carousel', pause: false, wrap: true, touch: true}); }catch(e){}
+                }
+              });
+            </script>
+            {% else %}
+            <div class="ratio ratio-16x9 rounded-4 overflow-hidden">
+              <img src="{{ url_for('static', filename='uploads/service-placeholder.svg') }}" class="img-cover" alt="Service image placeholder">
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick stats band -->
+  <section class="container mb-5 reveal">
+    <div class="stats-band p-3 p-md-4">
+      <div class="row g-3 text-center">
+        <div class="col-6 col-md-3">
+          <div class="fw-bold fs-4">{{ stats.years }}+</div>
+          <div class="text-muted-80">Years Experience</div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="fw-bold fs-4">{{ stats.projects }}+</div>
+          <div class="text-muted-80">Projects Delivered</div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="fw-bold fs-4">{{ stats.uptime }}</div>
+          <div class="text-muted-80">Uptime Solutions</div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="fw-bold fs-4">{{ stats.support }}</div>
+          <div class="text-muted-80">Support</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature cards -->
+  <section class="container mb-5 reveal">
+    <div class="row g-4">
+      <div class="col-md-4 reveal">
+        <div class="card h-100 feature-card">
+          <div class="card-body">
+            <div class="icon-circle icon-software mb-3"><i class="bi bi-window"></i></div>
+            <h5 class="card-title">Modern Software</h5>
+            <p class="card-text">From websites to internal tools, we build secure, scalable, and maintainable solutions.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 feature-card">
+          <div class="card-body">
+            <div class="icon-circle icon-network mb-3"><i class="bi bi-shield-lock"></i></div>
+            <h5 class="card-title">Network & Security</h5>
+            <p class="card-text">Design, deployment, and monitoring of robust, secure networks for your organization.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 feature-card">
+          <div class="card-body">
+            <div class="icon-circle icon-hardware mb-3"><i class="bi bi-motherboard"></i></div>
+            <h5 class="card-title">Hardware Supply</h5>
+            <p class="card-text">Quality hardware procurement with warranty and after‑sales support.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Specialized services section -->
+  <section class="container mb-4 reveal">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h2 class="h4 mb-0">Specialized Services</h2>
+      <a class="btn btn-sm btn-outline-primary" href="{{ url_for('services') }}"><i class="bi bi-grid"></i> View All</a>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-3 reveal">
+        <div class="card h-100 feature-card">
+          <div class="card-body">
+            <div class="icon-circle icon-network mb-3"><i class="bi bi-camera-video"></i></div>
+            <h6 class="card-title mb-1">CCTV Solutions</h6>
+            <p class="card-text text-muted-80">Surveillance design, installation, remote monitoring.</p>
+            <a href="{{ url_for('services') }}" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card h-100 feature-card">
+          <div class="card-body">
+            <div class="icon-circle icon-software mb-3"><i class="bi bi-brush"></i></div>
+            <h6 class="card-title mb-1">Logo Design</h6>
+            <p class="card-text text-muted-80">Brand identity, vector assets, style guides.</p>
+            <a href="{{ url_for('services') }}" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card h-100 feature-card">
+          <div class="card-body">
+            <div class="icon-circle icon-hardware mb-3"><i class="bi bi-film"></i></div>
+            <h6 class="card-title mb-1">Video Editing</h6>
+            <p class="card-text text-muted-80">Promos, reels, product demos with motion graphics.</p>
+            <a href="{{ url_for('services') }}" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card h-100 feature-card">
+          <div class="card-body">
+            <div class="icon-circle icon-network mb-3"><i class="bi bi-mortarboard"></i></div>
+            <h6 class="card-title mb-1">Final Project Support</h6>
+            <p class="card-text text-muted-80">Guidance, code reviews, hardware kits for academic projects.</p>
+            <a href="{{ url_for('services') }}" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

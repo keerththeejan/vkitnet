@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img">
+  <rect width="1200" height="630" fill="#0b132b"/>
+  <g transform="translate(300,150)">
+    <circle cx="150" cy="150" r="120" fill="#1d2d50" stroke="#0d6efd" stroke-width="6"/>
+    <path d="M150 60 L240 240 L60 240 Z" fill="#0d6efd" opacity="0.2"/>
+    <text x="380" y="110" fill="#e8eefb" font-family="Segoe UI, Roboto, Arial" font-size="64" font-weight="800">Your Logo</text>
+    <rect x="380" y="140" width="340" height="8" fill="#20c997"/>
+  </g>
+  <text x="50%" y="78%" fill="#e8eefb" opacity="0.8" text-anchor="middle" font-family="Segoe UI, Roboto, Arial" font-size="24">Brand Identity • Vectors • Style Guides</text>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img">
+  <rect width="1200" height="630" fill="#0b132b"/>
+  <g transform="translate(200,120)">
+    <rect x="0" y="80" width="520" height="180" rx="16" fill="#1d2d50" stroke="#20c997" stroke-width="6"/>
+    <circle cx="430" cy="170" r="36" fill="#0b132b" stroke="#20c997" stroke-width="6"/>
+    <rect x="420" y="206" width="20" height="80" fill="#133b5c"/>
+    <rect x="410" y="286" width="40" height="16" fill="#20c997"/>
+  </g>
+  <text x="50%" y="70%" fill="#e8eefb" text-anchor="middle" font-family="Segoe UI, Roboto, Arial" font-size="48" font-weight="700">CCTV Solutions</text>
+  <text x="50%" y="78%" fill="#e8eefb" opacity="0.75" text-anchor="middle" font-family="Segoe UI, Roboto, Arial" font-size="24">Surveillance • Installation • Monitoring</text>
+</svg>

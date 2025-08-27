@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="row mb-4">
+    <div class="col">
+      <h1>About Us</h1>
+      <p>We are a team committed to delivering quality technology solutions for businesses of all sizes.</p>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-5">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <img src="{{ url_for('static', filename='uploads/final-project.svg') }}" class="card-img-top" alt="Team">
+        <div class="card-body">
+          <h5 class="card-title">Our Values</h5>
+          <p class="card-text">Integrity, innovation, and customer success drive everything we do.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Our Expertise</h5>
+          <p class="card-text">Software engineering, networking, and hardware supply with strong support.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="h4 mb-3">Our Team</h2>
+  <div class="row g-4">
+    {% for e in employees %}
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100 text-center feature-card">
+        {% set p = e.photo_filename if e.photo_filename else 'employee-placeholder.svg' %}
+        <img src="{{ url_for('static', filename='uploads/' ~ p) }}" class="card-img-top" alt="{{ e.name }}" style="height:200px; object-fit:cover;">
+        <div class="card-body">
+          <div class="fw-semibold">{{ e.name }}</div>
+          <div class="text-muted">{{ e.position }}</div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+      <div class="alert alert-info">Team profiles coming soon.</div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
