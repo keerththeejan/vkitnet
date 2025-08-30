@@ -33,11 +33,17 @@ CREATE TABLE IF NOT EXISTS users (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   username VARCHAR(100) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
-  role ENUM('admin','editor','user') NOT NULL DEFAULT 'user',
+  role ENUM('admin','editor','employee','user') NOT NULL DEFAULT 'user',
   is_active TINYINT(1) NOT NULL DEFAULT 1,
+  employee_id INT UNSIGNED NULL,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  INDEX (employee_id),
+  CONSTRAINT fk_users_employee
+    FOREIGN KEY (employee_id)
+    REFERENCES employees(id)
+    ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Services table
@@ -55,4 +61,27 @@ CREATE TABLE IF NOT EXISTS services (
   INDEX (is_active),
   INDEX (featured),
   INDEX (sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tasks table
+CREATE TABLE IF NOT EXISTS tasks (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  title VARCHAR(200) NOT NULL,
+  description TEXT NULL,
+  employee_id INT UNSIGNED NULL,
+  status ENUM('todo','in_progress','done','blocked') NOT NULL DEFAULT 'todo',
+  priority ENUM('low','medium','high') NOT NULL DEFAULT 'medium',
+  attachment_filename VARCHAR(255) NULL,
+  github_url VARCHAR(255) NULL,
+  due_date DATE NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
+  PRIMARY KEY (id),
+  INDEX (employee_id),
+  INDEX (status),
+  INDEX (priority),
+  CONSTRAINT fk_tasks_employee
+    FOREIGN KEY (employee_id)
+    REFERENCES employees(id)
+    ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

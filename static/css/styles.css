@@ -75,3 +75,52 @@ footer{ font-size:.9rem; }
 [data-theme="dark"] .footer-gradient{ background: linear-gradient(135deg, #0b132b 0%, #14213d 60%, #1d2d50 100%); }
 [data-theme="dark"] .card{ background-color: var(--card); color: var(--text); }
 [data-theme="dark"] .glass{ background: rgba(20,33,61,.6); border-color: rgba(255,255,255,.1); }
+
+/* --- Admin UI polish --- */
+.admin-toolbar .btn{
+  border-radius: .6rem;
+}
+.btn-soft{
+  color: var(--text);
+  background: rgba(13,110,253,.08);
+  border: 1px solid rgba(13,110,253,.2);
+}
+.btn-soft:hover{ background: rgba(13,110,253,.12); }
+.btn-soft.teal{ background: rgba(32,201,151,.1); border-color: rgba(32,201,151,.25); }
+.btn-soft.teal:hover{ background: rgba(32,201,151,.16); }
+.btn-soft.gray{ background: rgba(108,117,125,.12); border-color: rgba(108,117,125,.25); }
+
+.stat-card{
+  border: 0;
+  background: var(--card);
+  box-shadow: 0 .5rem 1.25rem rgba(0,0,0,.06);
+  border-radius: .9rem;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card .card-body{ padding: 1.25rem 1rem; }
+.stat-card .label{ font-size: .9rem; color: var(--muted); }
+.stat-card .value{ font-weight: 800; letter-spacing: .3px; }
+.stat-card .icon-badge{
+  position: absolute; right: .75rem; top: .75rem; width: 40px; height: 40px;
+  border-radius: 12px; display:flex; align-items:center; justify-content:center;
+  background: radial-gradient(circle at 30% 30%, rgba(13,110,253,.16), transparent 60%), rgba(13,110,253,.06);
+  color:#0d6efd;
+}
+.stat-card.employees .icon-badge{ background: radial-gradient(circle at 30% 30%, rgba(32,201,151,.18), transparent 60%), rgba(32,201,151,.08); color:#20c997; }
+.stat-card.tasks .icon-badge{ background: radial-gradient(circle at 30% 30%, rgba(255,193,7,.22), transparent 60%), rgba(255,193,7,.10); color:#e0a800; }
+
+.card.message-card{ border: 0; border-radius: .9rem; box-shadow: 0 .5rem 1.25rem rgba(0,0,0,.06); }
+.card.message-card .card-body{ display:flex; align-items:center; justify-content:space-between; }
+
+/* subtle shine on hover */
+.hover-raise{ transition: transform .2s ease, box-shadow .2s ease; }
+.hover-raise:hover{ transform: translateY(-4px); box-shadow: 0 .75rem 1.5rem rgba(0,0,0,.08); }
+/* indicate clickable cards */
+.stat-card:hover{ cursor: pointer; }
+
+/* dark mode tweaks */
+[data-theme="dark"] .btn-soft{ color:#e9eef6; border-color: rgba(255,255,255,.15); }
+[data-theme="dark"] .btn-soft.gray{ background: rgba(255,255,255,.06); }
+[data-theme="dark"] .stat-card{ box-shadow: 0 .5rem 1.25rem rgba(0,0,0,.35); }
+[data-theme="dark"] .stat-card .icon-badge{ background: rgba(13,110,253,.15); }

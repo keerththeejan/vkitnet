@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <h1 class="h4 mb-3">Employee Login</h1>
+      <form method="post">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input class="form-control" id="username" name="username" autocomplete="username" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary" type="submit">Login</button>
+          <a class="btn btn-outline-secondary" href="{{ url_for('home') }}">Cancel</a>
+          <a class="btn btn-link" href="{{ url_for('user_register') }}">Register</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

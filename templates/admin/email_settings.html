@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">Email Settings (Gmail SMTP)</h1>
+    <div class="d-flex gap-2">
+      <a class="btn btn-outline-secondary" href="{{ url_for('admin_messages') }}"><i class="bi bi-envelope"></i> Messages</a>
+      <a class="btn btn-outline-secondary" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <div><strong>Tip:</strong> For Gmail, enable 2-Step Verification and use an <em>App Password</em>. Normal passwords usually won't work.</div>
+  </div>
+
+  <form method="post" class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label" for="SMTP_HOST">SMTP Host</label>
+      <input class="form-control" id="SMTP_HOST" name="SMTP_HOST" value="{{ current.SMTP_HOST }}" placeholder="smtp.gmail.com">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label" for="SMTP_PORT">SMTP Port</label>
+      <input class="form-control" id="SMTP_PORT" name="SMTP_PORT" value="{{ current.SMTP_PORT }}" placeholder="587">
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="SMTP_USE_TLS" name="SMTP_USE_TLS" {% if (current.SMTP_USE_TLS or 'true')|lower != 'false' %}checked{% endif %}>
+        <label class="form-check-label" for="SMTP_USE_TLS">Use STARTTLS</label>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label" for="SMTP_USER">SMTP User (Gmail)</label>
+      <input class="form-control" id="SMTP_USER" name="SMTP_USER" value="{{ current.SMTP_USER }}" placeholder="you@gmail.com">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label" for="SMTP_PASS">SMTP App Password</label>
+      <input type="password" class="form-control" id="SMTP_PASS" name="SMTP_PASS" placeholder="16-character app password">
+      {% if current.SMTP_PASS_SET %}
+        <div class="form-text text-success">A password is currently set. Leave empty to keep unchanged.</div>
+      {% else %}
+        <div class="form-text">No password set yet.</div>
+      {% endif %}
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label" for="EMAIL_FROM">From Email</label>
+      <input class="form-control" id="EMAIL_FROM" name="EMAIL_FROM" value="{{ current.EMAIL_FROM }}" placeholder="you@gmail.com">
+      <div class="form-text">Defaults to SMTP_USER if blank.</div>
+    </div>
+
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Save Settings</button>
+      <a class="btn btn-outline-secondary" href="{{ url_for('admin_messages') }}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

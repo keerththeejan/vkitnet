@@ -21,7 +21,7 @@
                   {% set img = s.image_filename if s.image_filename else 'service-placeholder.svg' %}
                   <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
                     <div class="ratio ratio-16x9">
-                      <img src="{{ url_for('static', filename='uploads/' ~ img) }}" class="img-cover" alt="{{ s.title }}">
+                      <img src="{{ url_for('static', filename='uploads/' ~ img) }}" class="img-cover" alt="{{ s.title }}" loading="lazy" decoding="async">
                     </div>
                   </div>
                 {% endfor %}
@@ -37,7 +37,7 @@
             </script>
             {% else %}
             <div class="ratio ratio-16x9 rounded-4 overflow-hidden">
-              <img src="{{ url_for('static', filename='uploads/service-placeholder.svg') }}" class="img-cover" alt="Service image placeholder">
+              <img src="{{ url_for('static', filename='uploads/service-placeholder.svg') }}" class="img-cover" alt="Service image placeholder" loading="lazy" decoding="async">
             </div>
             {% endif %}
           </div>
@@ -73,28 +73,28 @@
   <!-- Feature cards -->
   <section class="container mb-5 reveal">
     <div class="row g-4">
-      <div class="col-md-4 reveal">
+      <div class="col-12 col-sm-6 col-md-4 reveal">
         <div class="card h-100 feature-card">
           <div class="card-body">
-            <div class="icon-circle icon-software mb-3"><i class="bi bi-window"></i></div>
+            <div class="icon-circle icon-software mb-3"><i class="bi bi-window" aria-hidden="true"></i></div>
             <h5 class="card-title">Modern Software</h5>
             <p class="card-text">From websites to internal tools, we build secure, scalable, and maintainable solutions.</p>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <div class="card h-100 feature-card">
           <div class="card-body">
-            <div class="icon-circle icon-network mb-3"><i class="bi bi-shield-lock"></i></div>
+            <div class="icon-circle icon-network mb-3"><i class="bi bi-shield-lock" aria-hidden="true"></i></div>
             <h5 class="card-title">Network & Security</h5>
             <p class="card-text">Design, deployment, and monitoring of robust, secure networks for your organization.</p>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <div class="card h-100 feature-card">
           <div class="card-body">
-            <div class="icon-circle icon-hardware mb-3"><i class="bi bi-motherboard"></i></div>
+            <div class="icon-circle icon-hardware mb-3"><i class="bi bi-motherboard" aria-hidden="true"></i></div>
             <h5 class="card-title">Hardware Supply</h5>
             <p class="card-text">Quality hardware procurement with warranty and after‑sales support.</p>
           </div>
@@ -105,48 +105,52 @@
 
   <!-- Specialized services section -->
   <section class="container mb-4 reveal">
-    <div class="d-flex align-items-center justify-content-between mb-3">
-      <h2 class="h4 mb-0">Specialized Services</h2>
-      <a class="btn btn-sm btn-outline-primary" href="{{ url_for('services') }}"><i class="bi bi-grid"></i> View All</a>
+    <div class="row align-items-center mb-3 g-2">
+      <div class="col-12 col-sm">
+        <h2 class="h4 mb-0">Specialized Services</h2>
+      </div>
+      <div class="col-auto">
+        <a class="btn btn-sm btn-outline-primary" href="{{ url_for('services') }}"><i class="bi bi-grid"></i> View All</a>
+      </div>
     </div>
     <div class="row g-4">
-      <div class="col-md-3 reveal">
+      <div class="col-12 col-sm-6 col-md-3 reveal">
         <div class="card h-100 feature-card">
           <div class="card-body">
-            <div class="icon-circle icon-network mb-3"><i class="bi bi-camera-video"></i></div>
+            <div class="icon-circle icon-network mb-3"><i class="bi bi-camera-video" aria-hidden="true"></i></div>
             <h6 class="card-title mb-1">CCTV Solutions</h6>
             <p class="card-text text-muted-80">Surveillance design, installation, remote monitoring.</p>
-            <a href="{{ url_for('services') }}" class="stretched-link"></a>
+            <a href="{{ url_for('services') }}" class="stretched-link"><span class="visually-hidden">View CCTV Solutions service</span></a>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-100 feature-card">
           <div class="card-body">
             <div class="icon-circle icon-software mb-3"><i class="bi bi-brush"></i></div>
             <h6 class="card-title mb-1">Logo Design</h6>
             <p class="card-text text-muted-80">Brand identity, vector assets, style guides.</p>
-            <a href="{{ url_for('services') }}" class="stretched-link"></a>
+            <a href="{{ url_for('services') }}" class="stretched-link"><span class="visually-hidden">View Logo Design service</span></a>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-100 feature-card">
           <div class="card-body">
-            <div class="icon-circle icon-hardware mb-3"><i class="bi bi-film"></i></div>
+            <div class="icon-circle icon-hardware mb-3"><i class="bi bi-film" aria-hidden="true"></i></div>
             <h6 class="card-title mb-1">Video Editing</h6>
             <p class="card-text text-muted-80">Promos, reels, product demos with motion graphics.</p>
-            <a href="{{ url_for('services') }}" class="stretched-link"></a>
+            <a href="{{ url_for('services') }}" class="stretched-link"><span class="visually-hidden">View Video Editing service</span></a>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-100 feature-card">
           <div class="card-body">
-            <div class="icon-circle icon-network mb-3"><i class="bi bi-mortarboard"></i></div>
+            <div class="icon-circle icon-network mb-3"><i class="bi bi-mortarboard" aria-hidden="true"></i></div>
             <h6 class="card-title mb-1">Final Project Support</h6>
             <p class="card-text text-muted-80">Guidance, code reviews, hardware kits for academic projects.</p>
-            <a href="{{ url_for('services') }}" class="stretched-link"></a>
+            <a href="{{ url_for('services') }}" class="stretched-link"><span class="visually-hidden">View Final Project Support service</span></a>
           </div>
         </div>
       </div>

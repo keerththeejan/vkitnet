@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">{{ 'New Task' if mode=='new' else 'Edit Task' }}</h1>
+    <a class="btn btn-outline-secondary" href="{{ url_for('admin_tasks_list') }}">Back</a>
+  </div>
+
+  <form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="MAX_FILE_SIZE" value="5242880">
+    <div class="row g-3">
+      <div class="col-md-8">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-control" id="title" name="title" value="{{ task.title if task }}" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="employee_id">Assignee</label>
+        <select class="form-select" id="employee_id" name="employee_id">
+          <option value="">Unassigned</option>
+          {% for e in employees %}
+            <option value="{{ e.id }}" {% if task and task.employee_id == e.id %}selected{% endif %}>{{ e.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="row g-3 mt-1">
+      <div class="col-md-8">
+        <label class="form-label" for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="5">{{ task.description if task }}</textarea>
+      </div>
+      <div class="col-md-4">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label" for="status">Status</label>
+            <select class="form-select" id="status" name="status">
+              {% set st = task.status if task else 'todo' %}
+              <option value="todo" {% if st=='todo' %}selected{% endif %}>To Do</option>
+              <option value="in_progress" {% if st=='in_progress' %}selected{% endif %}>In Progress</option>
+              <option value="done" {% if st=='done' %}selected{% endif %}>Done</option>
+              <option value="blocked" {% if st=='blocked' %}selected{% endif %}>Blocked</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="priority">Priority</label>
+            <select class="form-select" id="priority" name="priority">
+              {% set pr = task.priority if task else 'medium' %}
+              <option value="low" {% if pr=='low' %}selected{% endif %}>Low</option>
+              <option value="medium" {% if pr=='medium' %}selected{% endif %}>Medium</option>
+              <option value="high" {% if pr=='high' %}selected{% endif %}>High</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="due_date">Due Date</label>
+            <input type="date" class="form-control" id="due_date" name="due_date" value="{{ task.due_date if task }}">
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="github_url">GitHub URL</label>
+            <input type="url" class="form-control" id="github_url" name="github_url" placeholder="https://github.com/org/repo/issues/123" value="{{ task.github_url if task }}">
+            <div class="form-text">Link a related Pull Request or Issue.</div>
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="attachment">Attachment (image)</label>
+            <input type="file" class="form-control" id="attachment" name="attachment" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp">
+            <div class="form-text">PNG, JPG, GIF, WEBP up to ~5MB.</div>
+          </div>
+          {% if task and task.attachment_filename %}
+          <div class="col-12">
+            <label class="form-label d-block">Current Attachment</label>
+            <img src="{{ url_for('static', filename='uploads/' ~ task.attachment_filename) }}" class="img-fluid rounded border" style="max-height: 160px;" alt="Attachment">
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary mt-3" type="submit">{{ 'Create' if mode=='new' else 'Update' }}</button>
+  </form>
+{% endblock %}

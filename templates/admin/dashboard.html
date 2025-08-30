@@ -1,51 +1,82 @@
 {% extends 'base.html' %}
 {% block content %}
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="h4">Admin Dashboard</h1>
-    <div>
-      <a class="btn btn-outline-secondary me-2" href="{{ url_for('admin_services_list') }}"><i class="bi bi-grid"></i> Manage Services</a>
-      <a class="btn btn-outline-secondary me-2" href="{{ url_for('admin_employees_list') }}"><i class="bi bi-people"></i> Manage Employees</a>
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-2">
+    <h1 class="h4 mb-0">Admin Dashboard</h1>
+    <div class="d-flex flex-wrap gap-2 admin-toolbar">
+      <a class="btn btn-soft" href="{{ url_for('admin_services_list') }}"><i class="bi bi-grid"></i> Manage Services</a>
+      <a class="btn btn-soft teal" href="{{ url_for('admin_employees_list') }}"><i class="bi bi-people"></i> Manage Employees</a>
+      <a class="btn btn-soft gray" href="{{ url_for('admin_tasks_list') }}"><i class="bi bi-list-task"></i> Manage Tasks</a>
+      <a class="btn btn-soft" href="{{ url_for('admin_messages') }}"><i class="bi bi-envelope"></i> Admin Messages</a>
+      <a class="btn btn-soft" href="{{ url_for('admin_activity') }}"><i class="bi bi-activity"></i> Activity</a>
+      <a class="btn btn-soft" href="{{ url_for('admin_actions_list') }}"><i class="bi bi-remote"></i> Actions</a>
+      <span class="vr d-none d-md-inline mx-1"></span>
+      <a class="btn btn-primary" href="{{ url_for('admin_employees_new') }}"><i class="bi bi-person-plus"></i> New Employee</a>
+      <a class="btn btn-primary" href="{{ url_for('admin_users_new') }}"><i class="bi bi-shield-plus"></i> New User</a>
       <a class="btn btn-outline-danger" href="{{ url_for('admin_logout') }}">Logout</a>
     </div>
   </div>
 
   <div class="row g-3 mb-4">
-    <div class="col-md-4">
-      <div class="card text-bg-light h-100">
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card stat-card hover-raise h-100">
         <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div>
-              <div class="fw-semibold">Contacts</div>
-              <div class="display-6">{{ stats.contacts }}</div>
-            </div>
-            <i class="bi bi-envelope fs-1 text-muted"></i>
+          <div class="icon-badge"><i class="bi bi-envelope"></i></div>
+          <div class="label">Contacts</div>
+          <div class="display-6 value">{{ stats.contacts }}</div>
+          <a href="{{ url_for('contact') }}" class="stretched-link" aria-label="View contact page"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card stat-card hover-raise h-100">
+        <div class="card-body">
+          <div class="icon-badge"><i class="bi bi-grid"></i></div>
+          <div class="label">Services</div>
+          <div class="display-6 value">{{ stats.services }}</div>
+          <a href="{{ url_for('admin_services_list') }}" class="stretched-link" aria-label="Manage services"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card stat-card employees hover-raise h-100">
+        <div class="card-body">
+          <div class="icon-badge"><i class="bi bi-people"></i></div>
+          <div class="label">Employees</div>
+          <div class="display-6 value">{{ stats.employees }}</div>
+          <a href="{{ url_for('admin_employees_list') }}" class="stretched-link" aria-label="Manage employees"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card stat-card tasks hover-raise h-100">
+        <div class="card-body">
+          <div class="icon-badge"><i class="bi bi-list-task"></i></div>
+          <div class="label">Tasks</div>
+          <div class="display-6 value">{{ stats.tasks }}</div>
+          <a href="{{ url_for('admin_tasks_list') }}" class="stretched-link" aria-label="Manage tasks"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card message-card hover-raise h-100">
+        <div class="card-body">
+          <div>
+            <div class="text-muted">Messaging</div>
+            <div class="fs-5 fw-bold">Send Messages to Employees</div>
+          </div>
+          <div class="d-flex flex-column align-items-end gap-2">
+            <a href="{{ url_for('admin_messages') }}" class="btn btn-gradient btn-sm text-white">Send Message</a>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="card text-bg-light h-100">
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card stat-card hover-raise h-100">
         <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div>
-              <div class="fw-semibold">Services</div>
-              <div class="display-6">{{ stats.services }}</div>
-            </div>
-            <i class="bi bi-grid fs-1 text-muted"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card text-bg-light h-100">
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div>
-              <div class="fw-semibold">Employees</div>
-              <div class="display-6">{{ stats.employees }}</div>
-            </div>
-            <i class="bi bi-people fs-1 text-muted"></i>
-          </div>
+          <div class="icon-badge"><i class="bi bi-shield-lock"></i></div>
+          <div class="label">Admin Actions</div>
+          <div class="display-6 value">{{ stats.actions }}</div>
+          <a href="{{ url_for('admin_actions_list') }}" class="stretched-link" aria-label="View admin actions"></a>
         </div>
       </div>
     </div>
@@ -74,6 +105,48 @@
         </tr>
         {% else %}
         <tr><td colspan="5" class="text-center text-muted">No messages yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="h5 mt-4 mb-3">Latest Admin Actions</h2>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>When</th>
+          <th>Actor</th>
+          <th>Tool</th>
+          <th>Action</th>
+          <th>Device</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in latest_actions %}
+        <tr>
+          <td>{{ a.id }}</td>
+          <td class="text-nowrap">{{ a.started_at }}</td>
+          <td>{{ a.actor or '-' }}</td>
+          <td><span class="badge text-bg-light text-dark">{{ a.tool }}</span></td>
+          <td>{{ a.action }}</td>
+          <td>{{ a.device_id or '-' }}</td>
+          <td>
+            {% if a.status == 'completed' %}
+              <span class="badge text-bg-success">Completed</span>
+            {% elif a.status == 'failed' %}
+              <span class="badge text-bg-danger">Failed</span>
+            {% elif a.status == 'in_progress' %}
+              <span class="badge text-bg-warning text-dark">In Progress</span>
+            {% else %}
+              <span class="badge text-bg-secondary">Initiated</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center text-muted">No admin actions yet.</td></tr>
         {% endfor %}
       </tbody>
     </table>

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">Task #{{ task.id }}</h1>
+    <a class="btn btn-outline-secondary" href="{{ url_for('my_tasks') }}">Back to My Tasks</a>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <h2 class="h5 mb-3">{{ task.title }}</h2>
+      <div class="mb-3 text-muted small">Assigned to: {{ task.employee_name }}</div>
+      {% if task.description %}
+      <p class="mb-4 text-break">{{ task.description }}</p>
+      {% endif %}
+      <div class="row g-3">
+        <div class="col-md-3">
+          <div class="fw-semibold">Status</div>
+          <span class="badge text-bg-{% if task.status=='done' %}success{% elif task.status=='in_progress' %}primary{% elif task.status=='blocked' %}danger{% else %}secondary{% endif %}">{{ task.status.replace('_',' ') }}</span>
+          <div class="mt-3 d-flex gap-2">
+            {% if task.status != 'in_progress' and task.status != 'done' %}
+              <form method="post" action="{{ url_for('task_start', task_id=task.id) }}">
+                <button class="btn btn-sm btn-primary" type="submit"><i class="bi bi-play-fill"></i> Start</button>
+              </form>
+            {% endif %}
+            {% if task.status == 'in_progress' %}
+              <form method="post" action="{{ url_for('task_complete', task_id=task.id) }}">
+                <button class="btn btn-sm btn-success" type="submit"><i class="bi bi-check2-circle"></i> Complete</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="fw-semibold">Priority</div>
+          <span class="badge text-bg-{% if task.priority=='high' %}danger{% elif task.priority=='low' %}secondary{% else %}warning{% endif %}">{{ task.priority }}</span>
+        </div>
+        <div class="col-md-3">
+          <div class="fw-semibold">Due Date</div>
+          <div>{{ task.due_date or '-' }}</div>
+        </div>
+        <div class="col-md-3">
+          <div class="fw-semibold">Updated</div>
+          <div>{{ task.updated_at }}</div>
+        </div>
+      </div>
+      <hr>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="fw-semibold">Attachment</div>
+          {% if task.attachment_filename %}
+            <div class="mt-2">
+              <a class="btn btn-sm btn-outline-secondary" target="_blank" href="{{ url_for('static', filename='uploads/' ~ task.attachment_filename) }}">
+                <i class="bi bi-paperclip"></i> Download Attachment
+              </a>
+              {% if task.attachment_filename.endswith(('.png','.jpg','.jpeg','.gif','.webp')) %}
+                <div class="mt-2">
+                  <img src="{{ url_for('static', filename='uploads/' ~ task.attachment_filename) }}" style="max-width: 240px; height: auto;" class="img-thumbnail">
+                </div>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="text-muted">None</div>
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <div class="fw-semibold">GitHub</div>
+          {% if task.github_url %}
+            <div class="mt-2"><a class="btn btn-sm btn-dark" target="_blank" href="{{ task.github_url }}"><i class="bi bi-github"></i> Open Repository</a></div>
+          {% else %}
+            <div class="text-muted">None</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-2">
+    <h1 class="h4 mb-0">Remote Admin Actions</h1>
+    <div class="d-flex gap-2">
+      <a class="btn btn-sm btn-primary" href="{{ url_for('admin_actions_new') }}"><i class="bi bi-plus"></i> New Action</a>
+      <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin_dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Started</th>
+              <th>Actor</th>
+              <th>Tool</th>
+              <th>Action</th>
+              <th>Target User</th>
+              <th>Device</th>
+              <th>Status</th>
+              <th>Ended</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in actions %}
+            <tr>
+              <td>{{ a.id }}</td>
+              <td class="text-nowrap">{{ a.started_at }}</td>
+              <td>{{ a.actor or '-' }}</td>
+              <td><span class="badge text-bg-light text-dark">{{ a.tool }}</span></td>
+              <td>{{ a.action }}</td>
+              <td>{% if a.target_user_id %}#{{ a.target_user_id }}{% else %}-{% endif %}</td>
+              <td>{{ a.device_id or '-' }}</td>
+              <td>
+                {% if a.status == 'completed' %}
+                  <span class="badge text-bg-success">Completed</span>
+                {% elif a.status == 'failed' %}
+                  <span class="badge text-bg-danger">Failed</span>
+                {% elif a.status == 'in_progress' %}
+                  <span class="badge text-bg-warning text-dark">In Progress</span>
+                {% else %}
+                  <span class="badge text-bg-secondary">Initiated</span>
+                {% endif %}
+              </td>
+              <td class="text-nowrap">{{ a.ended_at or '-' }}</td>
+              <td>
+                {% if a.status != 'completed' %}
+                <form method="post" action="{{ url_for('admin_actions_complete', action_id=a.id) }}">
+                  <button class="btn btn-sm btn-outline-success" type="submit"><i class="bi bi-check2"></i></button>
+                </form>
+                {% endif %}
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="10" class="text-center text-muted">No actions logged yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

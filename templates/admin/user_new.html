@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">Create User</h1>
+    <a class="btn btn-outline-secondary" href="{{ url_for('admin_users_list') }}">Users</a>
+  </div>
+
+  <form method="post" class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label" for="username">Username</label>
+      <input id="username" name="username" class="form-control" required autocomplete="username">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label" for="password">Password</label>
+      <input id="password" type="password" name="password" class="form-control" required autocomplete="new-password">
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label" for="role">Role</label>
+      <select id="role" name="role" class="form-select">
+        <option value="employee" selected>employee</option>
+        <option value="user">user</option>
+        <option value="editor">editor</option>
+        <option value="admin">admin</option>
+      </select>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="is_active" name="is_active" checked>
+        <label class="form-check-label" for="is_active">Active</label>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <label class="form-label" for="employee_id">Linked Employee</label>
+      <select id="employee_id" name="employee_id" class="form-select">
+        <option value="">-- None --</option>
+        {% for emp in employees %}
+          <option value="{{ emp.id }}">{{ emp.name }}</option>
+        {% endfor %}
+      </select>
+      <div class="form-text">Link to an employee so they can access their tasks.</div>
+    </div>
+
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Create</button>
+      <a class="btn btn-outline-secondary" href="{{ url_for('admin_users_list') }}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

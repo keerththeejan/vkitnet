@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-2">
+    <h1 class="h4 mb-0">User Access & Activity</h1>
+    <div class="d-flex gap-2">
+      <a class="btn btn-sm {% if not device_filter %}btn-primary{% else %}btn-outline-primary{% endif %}" href="{{ url_for('admin_activity') }}">All</a>
+      <a class="btn btn-sm {% if device_filter=='mobile' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="{{ url_for('admin_activity', device='mobile') }}"><i class="bi bi-phone"></i> Mobile</a>
+      <a class="btn btn-sm {% if device_filter=='desktop' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="{{ url_for('admin_activity', device='desktop') }}"><i class="bi bi-pc"></i> Desktop</a>
+      <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin_dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card border-success h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-box-arrow-in-right text-success fs-3 me-3"></i>
+            <div>
+              <div class="text-muted small">Logins (7d)</div>
+              <div class="fs-4 fw-semibold">{{ summary.logins }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-danger h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle text-danger fs-3 me-3"></i>
+            <div>
+              <div class="text-muted small">Failed Logins (7d)</div>
+              <div class="fs-4 fw-semibold">{{ summary.failures }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-secondary h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-box-arrow-right text-secondary fs-3 me-3"></i>
+            <div>
+              <div class="text-muted small">Logouts (7d)</div>
+              <div class="fs-4 fw-semibold">{{ summary.logouts }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="h5 mb-3">Recent Activity</h2>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th scope="col">Time (UTC)</th>
+              <th scope="col">Action</th>
+              <th scope="col">User</th>
+              <th scope="col">Device</th>
+              <th scope="col">Admin</th>
+              <th scope="col">IP</th>
+              <th scope="col">User Agent</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for r in rows %}
+            <tr>
+              <td class="text-nowrap">{{ r.at.strftime('%Y-%m-%d %H:%M:%S') if r.at else '' }}</td>
+              <td>
+                {% if r.action == 'login_success' %}
+                  <span class="badge text-bg-success">Login</span>
+                {% elif r.action == 'login_failure' %}
+                  <span class="badge text-bg-danger">Failed Login</span>
+                {% elif r.action == 'logout' %}
+                  <span class="badge text-bg-secondary">Logout</span>
+                {% else %}
+                  <span class="badge text-bg-light text-dark">{{ r.action }}</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if r.username %}{{ r.username }}{% elif r.user_id %}#{{ r.user_id }}{% else %}-{% endif %}
+              </td>
+              <td>
+                {% if r.device_type == 'mobile' %}
+                  <span class="badge text-bg-info"><i class="bi bi-phone"></i> Mobile</span>
+                {% elif r.device_type == 'desktop' %}
+                  <span class="badge text-bg-secondary"><i class="bi bi-pc"></i> Desktop</span>
+                {% else %}
+                  <span class="badge text-bg-light text-dark">Unknown</span>
+                {% endif %}
+              </td>
+              <td>{% if r.is_admin %}<i class="bi bi-shield-lock text-primary" title="Admin"></i>{% else %}-{% endif %}</td>
+              <td class="text-muted small">{{ r.ip or '-' }}</td>
+              <td class="text-muted small text-truncate" style="max-width: 360px;" title="{{ r.user_agent }}">{{ r.user_agent or '-' }}</td>
+            </tr>
+          {% else %}
+            <tr><td colspan="6" class="text-center text-muted">No activity found.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

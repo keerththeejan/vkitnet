@@ -18,27 +18,42 @@
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm" role="navigation" aria-label="Primary navigation">
       <div class="container">
-        <a class="navbar-brand" href="{{ url_for('home') }}">Company</a>
+        <a class="navbar-brand" href="{{ url_for('home') }}" aria-label="Company Home">Company</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample" aria-controls="navbarsExample" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarsExample">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link{% if request.endpoint=='home' %} active{% endif %}" href="{{ url_for('home') }}">Home</a></li>
-            <li class="nav-item"><a class="nav-link{% if request.endpoint=='about' %} active{% endif %}" href="{{ url_for('about') }}">About</a></li>
-            <li class="nav-item"><a class="nav-link{% if request.endpoint=='services' %} active{% endif %}" href="{{ url_for('services') }}">Services</a></li>
-            <li class="nav-item"><a class="nav-link{% if request.endpoint=='contact' %} active{% endif %}" href="{{ url_for('contact') }}">Contact</a></li>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0" aria-label="Primary">
+            <li class="nav-item"><a class="nav-link{% if request.endpoint=='home' %} active{% endif %}" href="{{ url_for('home') }}" {% if request.endpoint=='home' %}aria-current="page"{% endif %}>Home</a></li>
+            <li class="nav-item"><a class="nav-link{% if request.endpoint=='about' %} active{% endif %}" href="{{ url_for('about') }}" {% if request.endpoint=='about' %}aria-current="page"{% endif %}>About</a></li>
+            <li class="nav-item"><a class="nav-link{% if request.endpoint=='services' %} active{% endif %}" href="{{ url_for('services') }}" {% if request.endpoint=='services' %}aria-current="page"{% endif %}>Services</a></li>
+            <li class="nav-item"><a class="nav-link{% if request.endpoint=='projects' %} active{% endif %}" href="{{ url_for('projects') }}" {% if request.endpoint=='projects' %}aria-current="page"{% endif %}>Projects</a></li>
+            <li class="nav-item"><a class="nav-link{% if request.endpoint=='contact' %} active{% endif %}" href="{{ url_for('contact') }}" {% if request.endpoint=='contact' %}aria-current="page"{% endif %}>Contact</a></li>
             <li class="nav-item">
               {% if session.get('admin_logged_in') %}
-                <a class="nav-link{% if request.endpoint and request.endpoint.startswith('admin_') %} active{% endif %}" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                <a class="nav-link{% if request.endpoint and request.endpoint.startswith('admin_') %} active{% endif %}" href="{{ url_for('admin_dashboard') }}" {% if request.endpoint and request.endpoint.startswith('admin_') %}aria-current="page"{% endif %}>Dashboard</a>
+              {% endif %}
+            </li>
+            <li class="nav-item dropdown">
+              {% if session.get('user_id') %}
+                <a class="nav-link dropdown-toggle{% if request.endpoint in ['my_tasks','my_task_detail'] %} active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Employee menu">
+                  <i class="bi bi-person-badge"></i> Employee
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="{{ url_for('my_tasks') }}"><i class="bi bi-list-task"></i> My Tasks</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{{ url_for('user_logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                </ul>
               {% else %}
-                <a class="nav-link{% if request.endpoint=='admin_login' %} active{% endif %}" href="{{ url_for('admin_login') }}">Admin</a>
+                {% if not session.get('admin_logged_in') %}
+                  <a class="nav-link{% if request.endpoint=='signin' %} active{% endif %}" href="{{ url_for('signin') }}" aria-label="Sign in"><i class="bi bi-box-arrow-in-right"></i> Sign in</a>
+                {% endif %}
               {% endif %}
             </li>
             <li class="nav-item ms-lg-2">
-              <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+              <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><i class="bi bi-moon-stars"></i></button>
             </li>
           </ul>
         </div>
@@ -67,10 +82,19 @@
           <small class="opacity-75">&copy; {{ current_year or 2025 }} Company — Software | Networks | Hardware</small>
         </div>
         <div class="nav">
-          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('services') }}"><i class="bi bi-grid"></i> Services</a>
-          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('contact') }}"><i class="bi bi-envelope"></i> Contact</a>
+          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('services') }}" aria-label="Services"><i class="bi bi-grid"></i> Services</a>
+          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('projects') }}" aria-label="Projects"><i class="bi bi-check2-square"></i> Projects</a>
+          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('contact') }}" aria-label="Contact"><i class="bi bi-envelope"></i> Contact</a>
+          {% if session.get('user_id') %}
+          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('my_tasks') }}" aria-label="My Tasks"><i class="bi bi-list-task"></i> My Tasks</a>
+          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('user_logout') }}" aria-label="Logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+          {% else %}
+          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('signin') }}" aria-label="Sign in"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+          {% endif %}
           {% if session.get('admin_logged_in') %}
-          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('admin_dashboard') }}"><i class="bi bi-speedometer2"></i> Admin</a>
+          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('admin_dashboard') }}" aria-label="Admin Dashboard"><i class="bi bi-speedometer2"></i> Admin</a>
+          {% else %}
+          <a class="nav-link px-2 text-light opacity-75" href="{{ url_for('signin') }}" aria-label="Admin sign in"><i class="bi bi-shield-lock"></i> Admin</a>
           {% endif %}
         </div>
       </div>
@@ -81,11 +105,15 @@
       // Theme toggle persistence
       (function(){
         var btn = document.getElementById('themeToggle');
+        var updatePressed = function(theme){ if(btn){ btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false'); }};
+        var curInit = document.documentElement.getAttribute('data-theme') || 'light';
+        updatePressed(curInit);
         if(btn){
           btn.addEventListener('click', function(){
             var cur = document.documentElement.getAttribute('data-theme') || 'light';
             var next = cur === 'light' ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', next);
+            updatePressed(next);
             try { localStorage.setItem('theme', next); } catch(e) {}
           });
         }

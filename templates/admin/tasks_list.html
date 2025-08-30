@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">Tasks</h1>
+    <div>
+      <a class="btn btn-success" href="{{ url_for('admin_tasks_new') }}">+ New Task</a>
+      <a class="btn btn-outline-secondary ms-2" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+    </div>
+  </div>
+
+  <form class="row gy-2 gx-2 align-items-end mb-3" method="get">
+    <div class="col-12 col-md-3">
+      <label class="form-label" for="status">Status</label>
+      <select class="form-select" id="status" name="status">
+        {% set st = cur_status %}
+        <option value="">All</option>
+        <option value="todo" {% if st=='todo' %}selected{% endif %}>To Do</option>
+        <option value="in_progress" {% if st=='in_progress' %}selected{% endif %}>In Progress</option>
+        <option value="blocked" {% if st=='blocked' %}selected{% endif %}>Blocked</option>
+        <option value="done" {% if st=='done' %}selected{% endif %}>Done</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="form-label" for="assignee">Assignee</label>
+      <select class="form-select" id="assignee" name="assignee">
+        <option value="">Anyone</option>
+        {% for e in employees %}
+          <option value="{{ e.id }}" {% if cur_assignee|int == e.id %}selected{% endif %}>{{ e.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-12 col-md-5 d-flex gap-2 mt-2 mt-md-0">
+      <button class="btn btn-primary" type="submit"><i class="bi bi-funnel"></i> Filter</button>
+      <a class="btn btn-outline-secondary" href="{{ url_for('admin_tasks_list') }}"><i class="bi bi-x-circle"></i> Clear</a>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th class="d-none d-lg-table-cell" style="min-width:260px;">Description</th>
+          <th>Assignee</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th>Due</th>
+          <th>Github</th>
+          <th>Attachment</th>
+          <th>Updated</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in tasks %}
+        <tr>
+          <td>{{ t.id }}</td>
+          <td class="text-wrap" style="max-width: 280px;">{{ t.title }}</td>
+          <td class="d-none d-lg-table-cell text-muted" style="max-width: 360px;">
+            {% if t.description %}
+              {{ t.description[:180] }}{% if t.description|length > 180 %}…{% endif %}
+            {% else %}-{% endif %}
+          </td>
+          <td>{{ t.employee_name or '-' }}</td>
+          <td>
+            {% if t.status == 'done' %}
+              <span class="badge bg-success">Done</span>
+            {% elif t.status == 'in_progress' %}
+              <span class="badge bg-primary">In Progress</span>
+            {% elif t.status == 'blocked' %}
+              <span class="badge bg-danger">Blocked</span>
+            {% else %}
+              <span class="badge bg-secondary">To Do</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if t.priority == 'high' %}
+              <span class="badge bg-danger"><i class="bi bi-arrow-up"></i> High</span>
+            {% elif t.priority == 'low' %}
+              <span class="badge bg-secondary"><i class="bi bi-arrow-down"></i> Low</span>
+            {% else %}
+              <span class="badge bg-warning text-dark"><i class="bi bi-dash"></i> Medium</span>
+            {% endif %}
+          </td>
+          <td>{{ t.due_date or '-' }}</td>
+          <td>
+            {% if t.github_url %}
+              <a href="{{ t.github_url }}" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-github"></i></a>
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td>
+            {% if t.attachment_filename %}
+              <img src="{{ url_for('static', filename='uploads/' ~ t.attachment_filename) }}" alt="att" style="height:34px;width:auto;" class="rounded border">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td>{{ t.updated_at }}</td>
+          <td class="text-end">
+            <a class="btn btn-sm btn-primary" href="{{ url_for('admin_tasks_edit', task_id=t.id) }}">Edit</a>
+            <form action="{{ url_for('admin_tasks_delete', task_id=t.id) }}" method="post" class="d-inline" onsubmit="return confirm('Delete this task?')">
+              <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="11" class="text-center p-5">
+            <div class="text-muted">
+              <i class="bi bi-card-checklist fs-1 d-block mb-2 opacity-50"></i>
+              <div class="mb-2">No tasks match your filters.</div>
+              <div>
+                <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin_tasks_list') }}">Reset Filters</a>
+                <a class="btn btn-sm btn-success ms-2" href="{{ url_for('admin_tasks_new') }}">Create Task</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

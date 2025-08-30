@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h1 class="h4 mb-3">Sign in</h1>
+
+          <form method="post" action="{{ url_for('signin', next=next_url) }}">
+            <input type="hidden" name="next" value="{{ next_url or '' }}">
+
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input class="form-control" id="username" name="username" autocomplete="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+              <button class="btn btn-primary" type="submit">Sign in</button>
+              <a class="btn btn-outline-secondary" href="{{ url_for('home') }}">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <script>
+        // Autofocus username
+        setTimeout(function(){ var el = document.getElementById('username'); if(el){ el.focus(); } }, 50);
+      </script>
+    </div>
+  </div>
+{% endblock %}
